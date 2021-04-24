@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Моніторинг</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <style>
+    body {
+      font-weight: normal;
+      font-size: 1em;
+      font-family: Arial;
+      color: #043246;
+      background-color: #ffffff;
+      margin: 0px;
+      padding: 0px;
+    }
+    .form1 {
+      width: 600px;
+      margin-top: 20px;
+      margin-left: 20px;
+      background: #78a5df;
+      padding: 20px;
+    }
+    .b-title {
+      text-align: left;
+      padding-top: 10px;
+      color: white;
+      margin-bottom: 20px;
+      font-size: 27px;
+    }
+    .di {
+        background:#fff;
+        border:1px solid #4c597f;
+        padding-left:2px;
+        margin-top:5px;
+        margin-bottom:5px;
+    }
+    .di:hover {
+        background:#e4eaf1;
+        border:1px solid #414d59;
+    }
+    .di:focus {
+        color:#8e2d46;
+        background:#fff;
+    }
+    .button {
+        font: bold 11px 'Segoe UI', Verdana, Arial, Helvetica, sans-serif;
+        border: #4c597f 1px solid;
+        color: #2c3d87;
+        margin-top:1px;
+        margin-bottom:2px;
+        padding: 1px 5px;
+        background-color: #8090ff;
+    }
+  </style>
+</head>
+<body>
+    <form action="/cgi-bin/form_monitoring.py" method=get class="form1">
+	<h2 class="b-title">Моніторинг сервісів</h2>
+	<b>Введіть доменне ім'я:</b><br/>
+        <input type="text" name="p_host" class="di" size="50" maxlength="100" />
+	<input type="submit" value="Перевірити" class="button">
+    </form>
+</body>
+</html>
