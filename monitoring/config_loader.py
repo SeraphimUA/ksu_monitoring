@@ -11,27 +11,20 @@ defaults = {
     "dns": {
         "resolvers": [
             "8.8.8.8"
-        ],
-        "check_www": True
+        ]
     },
+    "ipv6": True,
     "timeouts": {
-        "job": 80,
         "dns": 2,
-        "http": 2,
-        "http_read": 5,
-        "mail": 2,
-        "cache": 900
+        "http": 5,
+        "mail": 2
     },
     "mail": {
         "ports": [25, 465, 587]
     },
     "web": {
-        "max_redirects": 6,
-        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36",
-        "check_http": True,
-        "check_https": True,
-        "check_ipv4": True,
-        "check_ipv6": True,
+        "accept_language": "uk",
+        "user_agent": "my_monitor/0.0.1",
     }
 }
 
@@ -46,7 +39,7 @@ def merge_dicts(source, destination):
             merge_dicts(value, node)
         else:
             if isinstance(value, str):
-                if value[0].isdigit():
+                if value.isdigit():
                     destination[key] = floor(value)
                 elif value == "False":
                     destination[key] = False
@@ -58,7 +51,7 @@ def merge_dicts(source, destination):
                 destination[key] = value
     return destination
 
-def load_config_from_file(filename=default_config_filename):
+def load_config(filename=default_config_filename):
     pwd = getcwd()
     try:
         with open(filename) as f:
