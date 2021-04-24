@@ -1,9 +1,0 @@
-dns:
-    resolvers:
-        - 8.8.4.4
-    check.www: True
-
-hosts:
-    - google.com
-    - kspu.edu
-    - pravda.com.ua

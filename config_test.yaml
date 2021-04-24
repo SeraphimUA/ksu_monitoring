@@ -1,0 +1,28 @@
+dns:
+    resolvers:
+        - 8.8.8.8
+
+ipv6: false
+
+smtp:
+    smtp_server: <smtp_host>
+    smtp_user: mail_from
+    smtp_password: PASSWORD
+    mail_from: mail_from
+    mail_to:
+        - mail_to1
+	- mail_to2
+        
+hosts:
+    kmik.ks.ua:
+        - check_dns
+        - check_ping
+        - check_http
+        - check_https
+        - check_smtp
+    kspu.edu:
+        - check_dns
+        - check_ping
+        - check_http
+        - check_https
+        - check_smtp
