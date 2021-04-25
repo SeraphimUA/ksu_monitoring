@@ -31,3 +31,5 @@ def send_alert(p_subject, p_msg):
         print("Send mail failed")
         print(str(ex))
         return False
+    finally:
+        mail.quit()
