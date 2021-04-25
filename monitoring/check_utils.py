@@ -1,5 +1,7 @@
+import json
 import re
 import ipaddress
+from .smtp_utils import send_alert
 
 def check_domain(domain):
     if len(domain) < 3:
@@ -20,9 +22,34 @@ def check_domain(domain):
             return False
     return True
 
-def check_ip4(ipaddr):
+def check_ip(ipaddr):
     try:
-        ipaddress.ip_network(ipaddr)
+        ipaddress.ip_address(ipaddr)
         return True
     except ValueError:
         return False
+
+def check_result_status(domain, result):
+    try:
+        with open(f"results/{domain}.json",'r',encoding='utf-8') as r:
+            rc_old = json.load(r)
+    except FileNotFoundError:
+        rc_old = {}
+
+    for srv in result['results']:
+        status_new = result['results'][srv]['status']
+        try:
+            status_old = rc_old['results'][srv]['status']
+        except KeyError:
+            status_old = 'ok'
+
+        msg = ""
+        if status_new == 'fail' and status_old == 'ok':
+            msg = f"{domain} {srv} ALERT!"
+            
+        if status_new == 'ok' and status_new == 'fail':
+            msg = f"{domain} {srv} Recovery"
+
+        if msg:
+            print(msg)
+            send_alert(msg, msg)
