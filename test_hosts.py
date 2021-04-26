@@ -5,6 +5,7 @@ from monitoring.check_utils import check_result_status
 from monitoring.timestamp import timestamp
 import json
 from pprint import pprint
+from os import getcwd, path, makedirs
 
 # load config from file config.yaml
 config = cl.load_config()
@@ -51,8 +52,14 @@ for domain in hosts.keys():
                      'results': result}
     print(domain_result)
 
+    # check if result status changed. If yes, send alert
     check_result_status(domain, domain_result)
 
-    pprint(json.dumps(domain_result))
-    with open(f'results/{domain}.json', 'w', encoding='utf-8') as f:
+    # check if dir "results" exists. If not, make it
+    pwd = getcwd()
+    dir_result = path.join(pwd, 'results')
+    if not path.exists(dir_result):
+        make_dirs(dir_result)
+
+    with open(f'{dir_result}/{domain}.json', 'w', encoding='utf-8') as f:
         json.dump(domain_result, f, ensure_ascii=False)
