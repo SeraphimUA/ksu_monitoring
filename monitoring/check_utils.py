@@ -2,6 +2,7 @@ import json
 import re
 import ipaddress
 from .smtp_utils import send_alert
+from .config_loader import write_log
 
 def check_domain(domain):
     if len(domain) < 3:
@@ -43,12 +44,23 @@ def check_result_status(domain, result):
         except KeyError:
             status_old = 'ok'
 
+        try:
+            time_error_old = rc_old['results'][srv]['time_error']
+        except KeyError:
+            time_error_old = None
+
         msg = ""
         if status_new == 'fail' and status_old == 'ok':
             msg = f"{domain} {srv} ALERT!"
+            write_log(f"{domain} {srv} failed")
             
-        if status_new == 'ok' and status_new == 'fail':
+        if status_new == 'ok' and status_old == 'fail':
             msg = f"{domain} {srv} Recovery"
+            write_log(f"{domain} {srv} recovered")
+
+        # setting error time into its previous value
+        if status_new == 'fail' and status_old == 'fail':
+            result['results'][srv]['time_error'] = time_error_old
 
         if msg:
             print(msg)
