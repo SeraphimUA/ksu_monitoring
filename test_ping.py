@@ -1,7 +1,8 @@
 from monitoring.net_utils import check_ping, check_http
+import monitoring.dns_tools as dt
 import monitoring.config_loader as cl
 import sys
-import socket
+#import socket
 
 if len(sys.argv) <= 1:
     print("Enter a domain name!")
@@ -19,18 +20,24 @@ print(domain, port)
 
 config = cl.load_config()
 timeout = config['timeouts']['http']
-print(timeout)
-try:
-    ipaddr = socket.gethostbyname(domain)
-except Exception as e:
-    print("<h2>Неможливо визначити IP-адресу {}!</h2><p>{}</p>".format(domain, str(e)))
+#try:
+#    ipaddr = socket.gethostbyname(domain)
+#except Exception as e:
+#    print("Неможливо визначити IP-адресу {}! {}".format(domain, str(e)))
+#    exit()
+
+my_res = dt.get_resolver(config)
+ips = dt.get_record(domain, 'A', my_res)
+
+if not ips:
+    print(f"Неможливо визначити IP-адресу {domain}")
     exit()
 
-if ipaddr:
+for ipaddr in ips:
     print("<p>IP-адреса: {}</p>".format(ipaddr))
 
-print("Ping {}...\n".format(ipaddr))
-print(check_ping(ipaddr))
+    print("Ping {}...\n".format(ipaddr))
+    print(check_ping(ipaddr))
 
-print("Check http://{}...\n".format(domain))
-print(check_http(config, domain, port))
+    print("Check http://{}...\n".format(domain))
+    print(check_http(config, domain, port))
