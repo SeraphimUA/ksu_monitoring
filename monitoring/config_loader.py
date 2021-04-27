@@ -7,13 +7,14 @@ from pprint import pprint
 default_config_filename = "config.yaml"
 default_error_log = "error.log"
 
+# define default config
 defaults = {
     "dns": {
         "resolvers": [
-            "8.8.8.8"
+            "8.8.8.8"   # external resolver to check work of domain outside local network
         ]
     },
-    "ipv6": True,
+    "ipv6": True,   # define if we work with IPv6 addresses
     "timeouts": {
         "dns": 2,
         "http": 5,

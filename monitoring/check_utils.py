@@ -4,6 +4,7 @@ import ipaddress
 from .smtp_utils import send_alert
 from .config_loader import write_log
 
+# function checking if domain written correctly
 def check_domain(domain):
     if len(domain) < 3:
         return False
@@ -23,6 +24,7 @@ def check_domain(domain):
             return False
     return True
 
+# function checking if IP address written correctly
 def check_ip(ipaddr):
     try:
         ipaddress.ip_address(ipaddr)
@@ -30,6 +32,7 @@ def check_ip(ipaddr):
     except ValueError:
         return False
 
+# function checking if status changed and sending an email if it did
 def check_result_status(domain, result):
     try:
         with open(f"results/{domain}.json",'r',encoding='utf-8') as r:

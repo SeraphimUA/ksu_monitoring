@@ -30,7 +30,7 @@ def get_record(domain, rtype, my_resolver = None):
         return None
     return a
 
-# get all IP addresses for domain (IPv4 & IPv6 (if set check_ipv6))
+# get all IP addresses for domain (IPv4 & IPv6 (if check_ipv6 set))
 def get_ip_addresses(domain, my_resolver = None, check_ipv6=True):
     a = []
     i = get_record(domain, 'A', my_resolver)
