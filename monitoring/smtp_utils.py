@@ -4,6 +4,7 @@ from .timestamp import timestamp
 
 config = load_config()
 
+# function sending emails
 def send_alert(p_subject, p_msg):
     smtp_server = config['smtp']['smtp_server']
     smtp_user = config['smtp']['smtp_user']

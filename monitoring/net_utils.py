@@ -4,6 +4,7 @@ import requests
 from .timestamp import timestamp
 from .config_loader import write_log
 
+# function checking if we can connect to server by TCP/IP
 def check_ping(ip_addr):
     result = {}
     try :
@@ -19,6 +20,7 @@ def check_ping(ip_addr):
         write_log(f"{ip_addr} ping failed. {str(err_msg)}")
     return result
 
+# function checking if service responds to our requests
 def check_http(config, domain, port):
     result = {}
     headers = {
