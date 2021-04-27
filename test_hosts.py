@@ -50,7 +50,6 @@ for domain in hosts.keys():
     domain_result = {'domain': domain, \
                      'timestamp': timestamp(), \
                      'results': result}
-    print(domain_result)
 
     # check if result status changed. If yes, send alert
     check_result_status(domain, domain_result)
