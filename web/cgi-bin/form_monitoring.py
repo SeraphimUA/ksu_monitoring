@@ -60,6 +60,7 @@ def check_http(domain, port):
                       "status_code": r.status_code}
         else:
             result = {"status": "fail", "url": r.url, \
+                      "time_error": timestamp(), \
                       "status_code": r.status_code}
     except Exception as err_msg:
         result = {"status": "fail", \
