@@ -3,9 +3,10 @@ from os import getcwd, path, makedirs
 from datetime import datetime, timedelta
 
 now = datetime.now()
+yesterday = now - timedelta(days=1)
 # time_check = now.strftime('Date(%Y,%m,%d,%H,%M)')
 time_check = f"Date({now.year},{now.month-1},{now.day},{now.hour},{now.minute})"
-time_yesterday = now - timedelta(days=1)
+time_yesterday = f"Date({yesterday.year},{yesterday.month-1},{yesterday.day},{yesterday.hour},{yesterday.minute})"
 
 with open('charts_data/kspu.edu.http.data', 'w') as f2:
     t0 = time_yesterday
