@@ -90,122 +90,122 @@ def check_dns(domain):
         result = {'status': 'fail', 'time_error': timestamp()}
     return result
 
+if __name__ == '__main__':
+    # prepare html
+    # set utf-8
+    sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
 
-# prepare html
-# set utf-8
-sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
+    # read data from the form
+    form = cgi.FieldStorage()
+    host1 = form.getfirst("p_host", "")[:100]
+    host1 = html.escape(host1, quote=True)
 
-# read data from the form
-form = cgi.FieldStorage()
-host1 = form.getfirst("p_host", "")[:100]
-host1 = html.escape(host1, quote=True)
+    p_check_ping = html.escape(form.getfirst("p_check_ping", "1"), quote=True)
+    p_check_dns = html.escape(form.getfirst("p_check_dns", ""), quote=True)
+    p_check_http = html.escape(form.getfirst("p_check_http", ""), quote=True)
+    p_check_https = html.escape(form.getfirst("p_check_https", ""), quote=True)
 
-p_check_ping = html.escape(form.getfirst("p_check_ping", "1"), quote=True)
-p_check_dns = html.escape(form.getfirst("p_check_dns", ""), quote=True)
-p_check_http = html.escape(form.getfirst("p_check_http", ""), quote=True)
-p_check_https = html.escape(form.getfirst("p_check_https", ""), quote=True)
+    # check host - length, space, special symbols
 
-# check host - length, space, special symbols
+    print("Content-type: text/html\n")
+    print("""<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Моніторинг</title>
+</head>
+<body>""")
 
-print("Content-type: text/html\n")
-print("""<!DOCTYPE HTML>
-        <html>
-        <head>
-            <meta charset="utf-8">
-            <title>Моніторинг</title>
-        </head>
-        <body>""")
-
-print(f"<h1>Результат перевірки {host1}</h1>")
+    print(f"<h1>Результат перевірки {host1}</h1>")
 
 
-if host1 :
-    print("<p>Платформа: {}</p>".format(platform.system().lower()))
-    if check_ip(host1):
-        domain = ""
-        ipaddr = host1
-        print("<p>IP-адреса: {}</p>".format(ipaddr))
-    elif check_domain(host1):
-        domain = host1
-        ipaddr = ""
-        print("<p>Доменне ім'я: {}</p>".format(domain))
-        # resolve IP address for domain
-        try :
-            ipaddr = socket.gethostbyname(domain)
-            if ipaddr :
-                print("<p>IP-адреса: {}</p>".format(ipaddr))
-        except Exception as e:
-            print("<h2>Неможливо визначити IP-адресу {}!</h2><p>{}</p>".format(domain, str(e)))
-    else: 
-        print("<h2>{} Некоректне доменне ім'я!</h2>".format(host1))
-        domain = ipaddr = ""
+    if host1 :
+        print("<p>Платформа: {}</p>".format(platform.system().lower()))
+        if check_ip(host1):
+            domain = ""
+            ipaddr = host1
+            print("<p>IP-адреса: {}</p>".format(ipaddr))
+        elif check_domain(host1):
+            domain = host1
+            ipaddr = ""
+            print("<p>Доменне ім'я: {}</p>".format(domain))
+            # resolve IP address for domain
+            try :
+                ipaddr = socket.gethostbyname(domain)
+                if ipaddr :
+                    print("<p>IP-адреса: {}</p>".format(ipaddr))
+            except Exception as e:
+                print("<h2>Неможливо визначити IP-адресу {}!</h2><p>{}</p>".format(domain, str(e)))
+        else: 
+            print("<h2>{} Некоректне доменне ім'я!</h2>".format(host1))
+            domain = ipaddr = ""
 
-    if ipaddr and p_check_ping:
-        # check ping
-        try :
-            param = '-n' if platform.system().lower()=='windows' else '-c'
-            command = ['ping', param, '2', ipaddr]
-            output = subprocess.check_output(command).decode().strip()
-            print("<pre>{}</pre>".format(output))
-            print("<h2>Ping Success!</h2>")
-        except Exception as e2:
-            print("<h2>Ping {} fail!</h2><p>{}</p>".format(ipaddr, str(e2)))
+        if ipaddr and p_check_ping:
+            # check ping
+            try :
+                param = '-n' if platform.system().lower()=='windows' else '-c'
+                command = ['ping', param, '2', ipaddr]
+                output = subprocess.check_output(command).decode().strip()
+                print("<pre>{}</pre>".format(output))
+                print("<h2>Ping Success!</h2>")
+            except Exception as e2:
+                print("<h2>Ping {} fail!</h2><p>{}</p>".format(ipaddr, str(e2)))
 
-    if domain:
-        if p_check_dns:
-            # check dns
-            rc = check_dns(domain)
-            if rc['status'] == 'ok':
-                print(f"<h2>DNS Success!</h2>")
-                print('<table style="width: 400px;padding: 10px;margin: 10px">')
-                for r in ['A','AAAA','NS','MX']:
-                    if rc[r]:
-                        print(f'<tr><td style="background-color: #4caf50;color: white;vertical-align:middle">{r}:</td><td>')
-                        for a in rc[r]:
-                            print(f"{a}<br/>")
-                        print('</td></tr>')
-                print('</table>')
-            else:
-                print(f"<h2>DNS FAIL!!!</h2><p><b>{domain} not resolved.</b></p>")
-
-        if p_check_http:
-            # check http
-            rc = check_http(domain, 80)
-            if rc['status'] == 'ok':
-                rc_url = rc['url']
-                print(f"<h2>HTTP Success!</h2><p><b>URL: {rc_url}</b></p>")
-            else:
-                rc_time = rc['time_error']
-                if 'status_code' in rc:
-                    rc_code = f"Status: {rc['status_code']}"
+        if domain:
+            if p_check_dns:
+                # check dns
+                rc = check_dns(domain)
+                if rc['status'] == 'ok':
+                    print(f"<h2>DNS Success!</h2>")
+                    print('<table style="width: 400px;padding: 10px;margin: 10px">')
+                    for r in ['A','AAAA','NS','MX']:
+                        if rc[r]:
+                            print(f'<tr><td style="background-color: #4caf50;color: white;vertical-align:middle">{r}:</td><td>')
+                            for a in rc[r]:
+                                print(f"{a}<br/>")
+                            print('</td></tr>')
+                    print('</table>')
                 else:
-                    rc_code = ""
-                if 'error' in rc:
-                    rc_error = f"Error: {rc['error']}"
-                else:
-                    rc_error = ""
-                print(f"<h2>HTTP FAIL!!!</h2><p><b>{rc_code}<br/>{rc_error}</b></p>")
+                    print(f"<h2>DNS FAIL!!!</h2><p><b>{domain} not resolved.</b></p>")
 
-        if p_check_https:
-    	    # check https
-            rc = check_http(domain, 443)
-            if rc['status'] == 'ok':
-                rc_url = rc['url']
-                print(f"<h2>HTTPS Success!</h2><p><b>URL: {rc_url}</b></p>")
-            else:
-                rc_time = rc['time_error']
-                if 'status_code' in rc:
-                    rc_code = f"Status: {rc['status_code']}"
+            if p_check_http:
+                # check http
+                rc = check_http(domain, 80)
+                if rc['status'] == 'ok':
+                    rc_url = rc['url']
+                    print(f"<h2>HTTP Success!</h2><p><b>URL: {rc_url}</b></p>")
                 else:
-                    rc_code = ""
-                if 'error' in rc:
-                    rc_error = f"Error: {rc['error']}"
+                    rc_time = rc['time_error']
+                    if 'status_code' in rc:
+                        rc_code = f"Status: {rc['status_code']}"
+                    else:
+                        rc_code = ""
+                    if 'error' in rc:
+                        rc_error = f"Error: {rc['error']}"
+                    else:
+                        rc_error = ""
+                    print(f"<h2>HTTP FAIL!!!</h2><p><b>{rc_code}<br/>{rc_error}</b></p>")
+
+            if p_check_https:
+                # check https
+                rc = check_http(domain, 443)
+                if rc['status'] == 'ok':
+                    rc_url = rc['url']
+                    print(f"<h2>HTTPS Success!</h2><p><b>URL: {rc_url}</b></p>")
                 else:
-                    rc_error = ""
-                print(f"<h2>HTTPS FAIL!!!</h2><p><b>{rc_code}<br/>{rc_error}</b></p>")
-else :
-   print("<p>Доменне ім'я не задано</p>")
+                    rc_time = rc['time_error']
+                    if 'status_code' in rc:
+                        rc_code = f"Status: {rc['status_code']}"
+                    else:
+                        rc_code = ""
+                    if 'error' in rc:
+                        rc_error = f"Error: {rc['error']}"
+                    else:
+                        rc_error = ""
+                    print(f"<h2>HTTPS FAIL!!!</h2><p><b>{rc_code}<br/>{rc_error}</b></p>")
+    else :
+        print("<p>Доменне ім'я не задано</p>")
 
 
-print("""</body>
-        </html>""")
+    print("""</body>
+</html>""")
