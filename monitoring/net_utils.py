@@ -1,6 +1,7 @@
 import platform
 import subprocess
 import requests
+from datetime import datetime
 from .timestamp import timestamp
 from .config_loader import write_log
 
@@ -32,13 +33,20 @@ def check_http(config, domain, port):
     url = f"{protocol}://{domain}:{port}/"
     p_timeout = config['timeouts']['http']
     try:
+        t_start = datetime.now()
         r = requests.get(url, timeout = p_timeout, headers = headers)
+        t_end = datetime.now()
+        t_run = t_end - t_start
+        # calc request runtime
+        t_ms = round(t_run.seconds*1000+t_run.microseconds/1000)
         if r.status_code == 200:
             result = {"status": "ok", "url": r.url, \
-                      "status_code": r.status_code}
+                      "status_code": r.status_code, \
+                      "runtime": t_ms}
         else:
             result = {"status": "fail", "url": r.url, \
-                      "status_code": r.status_code}
+                      "status_code": r.status_code, \
+                      "runtime": t_ms}
             write_log(f"{r.url} failed. Status code: {r.status_code}")
     except Exception as err_msg:
         result = {"status": "fail", \
