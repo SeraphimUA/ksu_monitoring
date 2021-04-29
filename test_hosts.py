@@ -58,7 +58,7 @@ for domain in hosts.keys():
     pwd = getcwd()
     dir_result = path.join(pwd, 'results')
     if not path.exists(dir_result):
-        make_dirs(dir_result)
+        makedirs(dir_result)
 
     with open(f'{dir_result}/{domain}.json', 'w', encoding='utf-8') as f:
         json.dump(domain_result, f, ensure_ascii=False)
