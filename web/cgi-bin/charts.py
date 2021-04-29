@@ -25,6 +25,7 @@ print("""<!DOCTYPE HTML>
 form = cgi.FieldStorage()
 host1 = form.getfirst("p_host", "kspu.edu")[:100]
 host1 = html.escape(host1)
+# insert check if data file exists
 
 print(f"<h1>Графік {host1}</h1>")
 
@@ -65,11 +66,17 @@ function drawLine() {
 pwd = getcwd()
 dir = path.join(pwd, 'charts_data')
 res_file = f"{dir}/{host1}.http.data"
+is_error = False
 
-with open(res_file, "r") as f1:
-    for x in f1:
-        (d, a, rt) = x.split()
-        print(f"[new {d}, {a}, {rt}],")
+try:
+    with open(res_file, "r") as f1:
+        for x in f1:
+            (d, a, rt) = x.split()
+            print(f"[new {d}, {a}, {rt}],")
+        print("""]);""")
+except FileNotFoundError:
+    print("[new Date(2000,0,1,0,0), 0, 0]")
+    is_error = True
 
 print("""
       ]);
@@ -79,6 +86,10 @@ print("""
 }
 </script>
 <div id="chart_div"></div>
-</div>
-</body>
+</div>""")
+
+if is_error:
+    print("<p>Failed to find data for such domain</p>")
+
+print("""</body>
 </html>""")
