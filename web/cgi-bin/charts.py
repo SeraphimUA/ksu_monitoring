@@ -40,18 +40,23 @@ function drawLine() {
       var options = {
           title: 'Check HTTP',
           legend: {position: 'top'},
+          series: {
+              0: {type: 'steppedArea', targetAxisIndex: 0, color: '#a52714'},
+              1: {type: 'line', targetAxisIndex: 1, color: 'grey'}
+          },
           hAxis: {
               title: 'Time',
-              ticks: [0, 1]
+              format: 'HH:mm'
           },
-          vAxis: {
-               title: 'Access'
-          },
-          colors: ['#a52714']
+          vAxes: [
+               {label: 'Access', ticks: [0, 2], textPosition: 'none'},
+               {label: 'Runtime, ms', minValue: 0, maxValue: 6000}
+          ]
       };
 
       data.addColumn('date', 'Date');
       data.addColumn('number', 'Access');
+      data.addColumn('number', 'Runtime');
 
       data.addRows([
 
@@ -64,12 +69,12 @@ res_file = f"{dir}/{host1}.http.data"
 with open(res_file, "r") as f1:
     for x in f1:
         (d, a, rt) = x.split()
-        print(f"[new {d}, {a}],")
+        print(f"[new {d}, {a}, {rt}],")
 
 print("""
       ]);
 
-      var chart = new google.visualization.SteppedAreaChart(document.getElementById('chart_div'));
+      var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
       chart.draw(data, options);
 }
 </script>
