@@ -42,22 +42,22 @@ function drawLine() {
           title: 'Check HTTP',
           legend: {position: 'top'},
           series: {
-              0: {type: 'steppedArea', targetAxisIndex: 0, color: '#a52714'},
-              1: {type: 'line', targetAxisIndex: 1, color: 'grey'}
+              0: {type: 'line', targetAxisIndex: 0, color: 'grey'},
+              1: {type: 'steppedArea', targetAxisIndex: 1, color: '#a52714'}
           },
           hAxis: {
               title: 'Time',
               format: 'HH:mm'
           },
           vAxes: [
-               {label: 'Access', ticks: [0, 2], textPosition: 'none'},
-               {label: 'Runtime, ms', minValue: 0, maxValue: 6000}
+               {label: 'Latency, ms', minValue: 0, maxValue: 6000},
+               {label: 'Access', ticks: [0, 1], textPosition: 'none'}
           ]
       };
 
       data.addColumn('date', 'Date');
+      data.addColumn('number', 'Latency');
       data.addColumn('number', 'Access');
-      data.addColumn('number', 'Runtime');
 
       data.addRows([
 
@@ -71,8 +71,8 @@ is_error = False
 try:
     with open(res_file, "r") as f1:
         for x in f1:
-            (d, a, rt) = x.split()
-            print(f"[new {d}, {a}, {rt}],")
+            (d, a, lt) = x.split()
+            print(f"[new {d}, {lt}, {a}],")
 except FileNotFoundError:
     print("[new Date(2000,0,1,0,0), 0, 0]")
     is_error = True
