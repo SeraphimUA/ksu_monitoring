@@ -2,7 +2,6 @@ from os import getcwd, path
 from .timestamp import timestamp
 
 import yaml
-from pprint import pprint
 
 default_config_filename = "config.yaml"
 default_error_log = "error.log"

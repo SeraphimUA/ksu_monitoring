@@ -66,5 +66,4 @@ def check_result_status(domain, result):
             result['results'][srv]['time_error'] = time_error_old
 
         if msg:
-            print(msg)
             send_alert(msg, msg)

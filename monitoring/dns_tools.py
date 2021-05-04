@@ -26,7 +26,7 @@ def get_record(domain, rtype, my_resolver = None):
 #    except dns.resolver.NoAnswer:
     except Exception as err_msg:
         err_msg = str(err_msg)
-        print(f"{domain} {rtype} not resolved. {err_msg}")
+#        print(f"{domain} {rtype} not resolved. {err_msg}")
         return None
     return a
 
@@ -34,7 +34,6 @@ def get_record(domain, rtype, my_resolver = None):
 def get_ip_addresses(domain, my_resolver = None, check_ipv6=True):
     a = []
     i = get_record(domain, 'A', my_resolver)
-    print(i)
     if i:
          for j in i:
              if check_ip(j):
