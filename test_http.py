@@ -15,11 +15,9 @@ for domain in hosts.keys():
     result = check_http(config, domain, 80)
 
     now = datetime.now()
-    yesterday = now - timedelta(days=1)
-#    time_check = now.strftime('Date(%Y,%m,%d,%H,%M)')
+    yesterday = now - timedelta(days=2)
     time_check = f"Date({now.year},{(now.month - 1):02},{now.day:02},{now.hour:02},{now.minute:02})"
-    time_yesterday = f"Date({yesterday.year},{yesterday.month - 1},{yesterday.day},{yesterday.hour},{yesterday.minute})"
-#    time_yesterday = (now - timedelta(days=1)).strftime('Date(%Y,%m,%d,%H,%M)')
+    time_yesterday = f"Date({yesterday.year},{(yesterday.month - 1):02},{yesterday.day:02},{yesterday.hour:02},{yesterday.minute:02})"
     check_status = 1 if result['status'] == 'ok' else 0
     runtime_check = result['runtime'] if 'runtime' in result else 0
 
