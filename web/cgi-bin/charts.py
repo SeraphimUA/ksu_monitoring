@@ -38,24 +38,29 @@ google.charts.setOnLoadCallback(drawLine);
 
 function drawLine() {
       var data = new google.visualization.DataTable();
+
+      var date_formatter = new google.visualization.DateFormat({ 
+         pattern: "MMM dd, yyyy HH:mm"
+      }); 
+
       var options = {
           title: 'Check HTTP',
           legend: {position: 'top'},
           series: {
               0: {type: 'line', targetAxisIndex: 0, color: 'grey'},
-              1: {type: 'steppedArea', targetAxisIndex: 1, color: '#a52714'}
+              1: {type: 'steppedArea', targetAxisIndex: 1, color: '#c76f61'}
           },
           hAxis: {
               title: 'Time',
               format: 'HH:mm'
           },
           vAxes: [
-               {label: 'Latency, ms', minValue: 0, maxValue: 6000},
+               {label: 'Latency, ms'},
                {label: 'Access', ticks: [0, 1], textPosition: 'none'}
           ]
       };
 
-      data.addColumn('date', 'Date');
+      data.addColumn('datetime', 'Date');
       data.addColumn('number', 'Latency');
       data.addColumn('number', 'Access');
 
