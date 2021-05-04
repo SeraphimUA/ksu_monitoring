@@ -17,7 +17,7 @@ for domain in hosts.keys():
     now = datetime.now()
     yesterday = now - timedelta(days=1)
 #    time_check = now.strftime('Date(%Y,%m,%d,%H,%M)')
-    time_check = f"Date({now.year},{now.month - 1},{now.day},{now.hour},{now.minute})"
+    time_check = f"Date({now.year},{(now.month - 1):02},{now.day:02},{now.hour:02},{now.minute:02})"
     time_yesterday = f"Date({yesterday.year},{yesterday.month - 1},{yesterday.day},{yesterday.hour},{yesterday.minute})"
 #    time_yesterday = (now - timedelta(days=1)).strftime('Date(%Y,%m,%d,%H,%M)')
     check_status = 1 if result['status'] == 'ok' else 0
