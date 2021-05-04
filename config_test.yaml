@@ -4,6 +4,9 @@ dns:
 
 ipv6: false
 
+send_alert: true
+debug: true
+
 smtp:
     smtp_server: <smtp_host>
     smtp_user: mail_from
@@ -19,10 +22,9 @@ hosts:
         - check_ping
         - check_http
         - check_https
-        - check_smtp
+        - chart_data_http
     kspu.edu:
         - check_dns
         - check_ping
         - check_http
-        - check_https
-        - check_smtp
+        - chart_data_http
