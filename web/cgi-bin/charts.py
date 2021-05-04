@@ -73,7 +73,6 @@ try:
         for x in f1:
             (d, a, rt) = x.split()
             print(f"[new {d}, {a}, {rt}],")
-        print("""]);""")
 except FileNotFoundError:
     print("[new Date(2000,0,1,0,0), 0, 0]")
     is_error = True
