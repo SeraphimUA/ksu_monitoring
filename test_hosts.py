@@ -6,6 +6,8 @@ from monitoring.timestamp import timestamp
 import json
 from pprint import pprint
 from os import getcwd, path, makedirs
+from datetime import datetime, timedelta
+import sys
 
 my_config = "config.yaml"
 if len(sys.argv)>1:
@@ -16,7 +18,7 @@ if not path.exists(my_config):
     exit()
 
 # load config from file config.yaml
-config = cl.load_config()
+config = cl.load_config(my_config)
 
 # debug print
 debug = config['debug'] or False;
@@ -26,7 +28,7 @@ hosts = config['hosts']
 
 # domain loop
 for domain in hosts.keys():
-    print(domain)
+    print(domain) if debug else None
     # insert here check_domain
     result = {}
     # select list of checks for host
@@ -34,7 +36,7 @@ for domain in hosts.keys():
 
     my_resolver = get_resolver(config)
     ips = get_ip_addresses(domain, my_resolver, False)
-    print(ips)
+    print(ips) if debug else None
     if not ips:
         print(f"Неможливо визначити IP-адресу {domain}!") if debug else None
         result['dns'] = {'status': 'fail', 'time_error': timestamp()}
@@ -42,7 +44,7 @@ for domain in hosts.keys():
         ipaddr = ips[0]
 
     if ipaddr:
-        print("IP-адреса: {}".format(ipaddr))
+        print(f"IP-адреса: {ipaddr}") if debug else None
 
         for one_check in check_arr:
             if one_check == 'check_dns':
@@ -57,14 +59,14 @@ for domain in hosts.keys():
             elif one_check == 'check_https':
                 print(f"Checking https://{domain}...\n") if debug else None
                 result['https'] = check_http(config, domain, 443)
-            elif one_check == 'charts_data':
+            elif one_check == 'chart_data_http':
                 print(f"Save data for chart http...\n") if debug else None
                 now = datetime.now()
-                yesterday = now - timedelta(days=1)
+                yesterday = now - timedelta(days=2)
                 time_check = f"Date({now.year},{(now.month - 1):02},{now.day:02},{now.hour:02},{now.minute:02})"
-                time_yesterday = f"Date({yesterday.year},{yesterday.month - 1},{yesterday.day},{yesterday.hour},{yesterday.minute})"
+                time_yesterday = f"Date({yesterday.year},{(yesterday.month - 1):02},{yesterday.day:02},{yesterday.hour:02},{yesterday.minute:02})"
                 check_status = 1 if result['http']['status'] == 'ok' else 0
-                runtime_check = result['runtime'] if 'runtime' in result['http'] else 0
+                runtime_check = result['http']['runtime'] if 'runtime' in result['http'] else 0
 
                 # check if dir "charts_data" exists. If not, make it
                 pwd = getcwd()
