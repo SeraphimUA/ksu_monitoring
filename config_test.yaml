@@ -28,3 +28,131 @@ hosts:
         - check_ping
         - check_http
         - chart_data_http
+    ksuonline.kspu.edu:
+        - check_dns
+        - check_ping
+        - check_http
+    weboap.kspu.edu:
+        - check_dns
+        - check_ping
+        - check_http
+    dl.kspu.edu:
+        - check_dns
+        - check_ping
+        - check_http
+    economics.sledux.kspu.edu:
+        - check_dns
+        - check_ping
+        - check_http
+    edusoft.kspu.edu:
+        - check_dns
+        - check_ping
+        - check_http
+    shakespeare.kspu.edu:
+        - check_dns
+        - check_ping
+        - check_http
+    froebel.kspu.edu:
+        - check_dns
+        - check_ping
+        - check_http
+    webhp.kspu.edu:
+        - check_dns
+        - check_ping
+        - check_http
+    izdp.kspu.edu:
+        - check_dns
+        - check_ping
+        - check_http
+    srw.kspu.edu:
+        - check_dns
+        - check_ping
+        - check_http
+    publication.kspu.edu:
+        - check_dns
+        - check_ping
+        - check_http
+    campus.kspu.edu:
+        - check_dns
+        - check_ping
+        - check_http
+    pool.kspu.edu:
+        - check_dns
+        - check_ping
+        - check_http
+    ite.kspu.edu:
+        - check_dns
+        - check_ping
+        - check_http
+    cbj.kspu.edu:
+        - check_dns
+        - check_ping
+        - check_http
+    ps.journal.kspu.edu:
+        - check_dns
+        - check_ping
+        - check_http
+    linguistics.journal.kspu.edu:
+        - check_dns
+        - check_ping
+        - check_http
+    pa.journal.kspu.edu:
+        - check_dns
+        - check_ping
+        - check_http
+    na.kspu.edu:
+        - check_dns
+        - check_ping
+        - check_http
+    sn.kspu.edu:
+        - check_dns
+        - check_ping
+        - check_http
+    gj.journal.kspu.edu:
+        - check_dns
+        - check_ping
+        - check_http
+    ej.journal.kspu.edu:
+        - check_dns
+        - check_ping
+        - check_http
+    lj.journal.kspu.edu:
+        - check_dns
+        - check_ping
+        - check_http
+    pj.journal.kspu.edu:
+        - check_dns
+        - check_ping
+        - check_http
+    tsj.journal.kspu.edu:
+        - check_dns
+        - check_ping
+        - check_http
+    ssp.journal.kspu.edu:
+        - check_dns
+        - check_ping
+        - check_http
+    feedback.ksu.ks.ua:
+        - check_dns
+        - check_ping
+        - check_http
+    photo.kspu.edu:
+        - check_dns
+        - check_ping
+        - check_http
+    conference.kspu.edu:
+        - check_dns
+        - check_ping
+        - check_http
+    numerology.ksu.ks.ua:
+        - check_dns
+        - check_ping
+        - check_http
+    ecology.ksu.ks.ua:
+        - check_dns
+        - check_ping
+        - check_http
+    elibrary.kspu.edu:
+        - check_dns
+        - check_ping
+        - check_http
