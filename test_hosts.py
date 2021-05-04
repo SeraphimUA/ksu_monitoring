@@ -66,7 +66,7 @@ for domain in hosts.keys():
                 time_check = f"Date({now.year},{(now.month - 1):02},{now.day:02},{now.hour:02},{now.minute:02})"
                 time_yesterday = f"Date({yesterday.year},{(yesterday.month - 1):02},{yesterday.day:02},{yesterday.hour:02},{yesterday.minute:02})"
                 check_status = 1 if result['http']['status'] == 'ok' else 0
-                runtime_check = result['http']['runtime'] if 'runtime' in result['http'] else 0
+                latency_check = result['http']['latency'] if 'latency' in result['http'] else 0
 
                 # check if dir "charts_data" exists. If not, make it
                 pwd = getcwd()
@@ -86,7 +86,7 @@ for domain in hosts.keys():
                         d = line.split()[0]
                         if d >= time_yesterday:
                             f2.write(line)
-                    f2.write(f"{time_check} {check_status} {runtime_check}\n")
+                    f2.write(f"{time_check} {check_status} {latency_check}\n")
 
     domain_result = {'domain': domain, \
                      'timestamp': timestamp(), \
