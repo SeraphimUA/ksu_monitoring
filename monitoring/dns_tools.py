@@ -26,7 +26,6 @@ def get_record(domain, rtype, my_resolver = None):
 #    except dns.resolver.NoAnswer:
     except Exception as err_msg:
         err_msg = str(err_msg)
-        write_log(f"{domain} {rtype} not resolved. {err_msg}")
         return None
     return a
 
