@@ -28,6 +28,8 @@ def check_http(config, domain, port):
                'User-Agent': config['web']['user_agent'],
                'Accept-Language': config['web']['accept_language'],
                'Accept-Encoding': 'gzip, deflate'
+               'Cache-Control': 'no-cache, no-store'
+               'Pragma': 'no-cache'
                }
     protocol = "https" if port == 443 else "http"
     url = f"{protocol}://{domain}:{port}/"
@@ -37,16 +39,16 @@ def check_http(config, domain, port):
         r = requests.get(url, timeout = p_timeout, headers = headers)
         t_end = datetime.now()
         t_run = t_end - t_start
-        # calc request runtime
+        # calc request latency
         t_ms = round(t_run.seconds*1000+t_run.microseconds/1000)
-        if r.status_code == 200:
+        if r.status_code == 200 or r.status_code == 204:
             result = {"status": "ok", "url": r.url, \
                       "status_code": r.status_code, \
-                      "runtime": t_ms}
+                      "latency": t_ms}
         else:
             result = {"status": "fail", "url": r.url, \
                       "status_code": r.status_code, \
-                      "runtime": t_ms}
+                      "latency": t_ms}
             write_log(f"{r.url} failed. Status code: {r.status_code}")
     except Exception as err_msg:
         result = {"status": "fail", \
