@@ -3,6 +3,9 @@
 <head>
   <title>Моніторинг</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  
   <style>
     body {
       font-weight: normal;
@@ -27,63 +30,42 @@
       margin-bottom: 20px;
       font-size: 27px;
     }
-    .di {
-        background:#fff;
-        border:1px solid #4c597f;
-        padding-left:2px;
-        margin-top:5px;
-        margin-bottom:5px;
-    }
-    .di:hover {
-        background:#e4eaf1;
-        border:1px solid #414d59;
-    }
-    .di:focus {
-        color:#8e2d46;
-        background:#fff;
-    }
-    .button {
-        font: bold 11px 'Segoe UI', Verdana, Arial, Helvetica, sans-serif;
-        border: #4c597f 1px solid;
-        color: #2c3d87;
-        margin-top:1px;
-        margin-bottom:2px;
-        padding: 1px 5px;
-        background-color: #8090ff;
-    }
   </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg nav-pills" style="background-color: #ccd9d9;">
-      <a class="nav-link active" aria-current="page" href="#">Моніторинг сервісів</a>
-      <a class="nav-link" href="/cgi-bin/result.py">Сервіси ХДУ - загальний статус</a>
-      <a class="nav-link" href="/cgi-bin/charts.py">Графіки</a>
-    </nav>
-    <form action="/cgi-bin/form_monitoring.py" method=get class="form1">
-	<h2 class="b-title">Моніторинг сервісів</h2>
-	<div>
-	<b>Введіть доменне ім'я:</b><br/>
-        <input type="text" name="p_host" class="di" size="50" maxlength="100" />
-        </div>
 
-        <div>
-        <input type="checkbox" name="p_check_ping" value="1" checked="checked" />
-        <b>Ping</b>
-        </div>
-        <div>
-        <input type="checkbox" name="p_check_dns" value="1" />
-        <b>DNS</b>
-        </div>
-        <div>
-        <input type="checkbox" name="p_check_http" value="1" />
-        <b>HTTP</b>
-        </div>
-        <div>
-        <input type="checkbox" name="p_check_https" value="1" />
-        <b>HTTPS</b>
-        </div>
+<nav class="navbar navbar-expand-lg nav-pills" style="background-color: #ccd9d9;">
+  <a class="nav-link active" aria-current="page" href="#">Моніторинг сервісів</a>
+  <a class="nav-link" href="/cgi-bin/result.py">Сервіси ХДУ - загальний статус</a>
+  <a class="nav-link" href="/cgi-bin/charts.py">Графіки</a>
+</nav>
 
-	<input type="submit" value="Перевірити" class="button">
-    </form>
+
+<form action="/cgi-bin/form_monitoring.py" method=get class="form1">
+  <h2 class="b-title">Моніторинг сервісів</h2>
+  <div class="mb-3">
+    <label class="form-label">Доменне ім'я:</label>
+    <input type="text" class="form-control" name="p_host" size="50" maxlength="100" />
+  </div>
+  <div class="mb-3 form-check">
+    <input type="checkbox" class="form-check-input" name="p_check_ping" checked>
+    <label class="form-check-label" for="p_check_ping">Ping</label>
+  </div>
+  <div class="mb-3 form-check">
+    <input type="checkbox" class="form-check-input" name="p_check_dns">
+    <label class="form-check-label" for="p_check_dns">DNS</label>
+  </div>
+  <div class="mb-3 form-check">
+    <input type="checkbox" class="form-check-input" name="p_check_http">
+    <label class="form-check-label" for="p_check_http">HTTP</label>
+  </div>
+  <div class="mb-3 form-check">
+    <input type="checkbox" class="form-check-input" name="p_check_https">
+    <label class="form-check-label" for="p_check_http">HTTPS</label>
+  </div>
+  <button type="submit" class="btn btn-primary">Перевірити</button>
+</form>
+
+
 </body>
 </html>
