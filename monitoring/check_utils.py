@@ -52,13 +52,18 @@ def check_result_status(domain, result):
         except KeyError:
             time_error_old = None
 
+        error_new = result['results'][srv]['error'] if 'error' in result['results'][srv] else ''
+
+        subject = ""
         msg = ""
+
         if status_new == 'fail' and status_old == 'ok':
-            msg = f"{domain} {srv} ALERT!"
-            write_log(f"{domain} {srv} failed")
+            subject = f"{domain} {srv} ALERT!"
+            msg = f"{domain} {srv} ALERT!\n{error_new}"
+            write_log(f"{domain} {srv} failed. {error_new}")
             
         if status_new == 'ok' and status_old == 'fail':
-            msg = f"{domain} {srv} Recovery"
+            msg = subject = f"{domain} {srv} Recovery"
             write_log(f"{domain} {srv} recovered")
 
         # setting error time into its previous value
@@ -66,4 +71,4 @@ def check_result_status(domain, result):
             result['results'][srv]['time_error'] = time_error_old
 
         if msg:
-            send_alert(msg, msg)
+            send_alert(subject, msg)
