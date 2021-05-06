@@ -17,6 +17,19 @@ print("""<!DOCTYPE HTML>
             <title>Моніторинг</title>
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
             <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	    <script type="text/javascript">
+	        var secondsToUpdate = 600;
+	        function tick() {
+	            document.getElementById("timer").innerHTML = secondsToUpdate;
+	            if (secondsToUpdate <= 0) {
+		        secondsToUpdate = 600;
+		        location.reload(true);
+		    } else {
+		        setTimeout("tick()", 1000);
+		        secondsToUpdate -= 1;
+		    }
+                }
+            </script>
         </head>
         <body>
         <div>             
