@@ -31,7 +31,7 @@ print("""<!DOCTYPE HTML>
                 }
             </script>
         </head>
-        <body>
+        <body onLoad="JavaScript:tick()">
         <div>             
 	<nav class="navbar navbar-expand-lg nav-pills" style="background-color: #ccd9d9;">
 	  <a class="nav-link" href="/">Моніторинг сервісів</a>
@@ -46,6 +46,7 @@ host1 = html.escape(host1)
 # insert check if data file exists
 
 print(f"<h1>Графік {host1}</h1>")
+print('<p>Сторінка буде перезавантажена за <span id="timer">600</span> сек.</p>')
 
 print("""
 

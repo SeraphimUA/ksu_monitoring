@@ -74,7 +74,7 @@ function drawLine() {
               format: 'HH:mm'
           },
           vAxes: [
-               {label: 'Latency, ms'},
+               {title: 'Latency, ms', label: 'Latency, ms'},
                {label: 'Access', ticks: [0, 1], textPosition: 'none'}
           ]
       };
