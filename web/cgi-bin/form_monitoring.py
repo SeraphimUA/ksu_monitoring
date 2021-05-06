@@ -112,9 +112,21 @@ if __name__ == '__main__':
 <html>
 <head>
 <meta charset="utf-8">
-<title>Моніторинг</title>
+<title>Моніторинг сервісів</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
-<body>""")
+<body>
+
+
+<nav class="navbar navbar-expand-lg nav-pills" style="background-color: #ccd9d9;">
+  <a class="nav-link active" aria-current="page" href="/">Моніторинг сервісів</a>
+  <a class="nav-link" href="/cgi-bin/result.py">Сервіси ХДУ - загальний статус</a>
+  <a class="nav-link" href="/cgi-bin/charts.py">Графіки</a>
+</nav>
+
+<div style="margin:20px">
+
+""")
 
     print(f"<h1>Результат перевірки {host1}</h1>")
 
@@ -146,10 +158,10 @@ if __name__ == '__main__':
                 param = '-n' if platform.system().lower()=='windows' else '-c'
                 command = ['ping', param, '2', ipaddr]
                 output = subprocess.check_output(command).decode().strip()
-                print("<pre>{}</pre>".format(output))
                 print("<h2>Ping Success!</h2>")
+                print("<pre>{}</pre>".format(output))
             except Exception as e2:
-                print("<h2>Ping {} fail!</h2><p>{}</p>".format(ipaddr, str(e2)))
+                print("<h2>Ping {} Fail!</h2><p>{}</p>".format(ipaddr, str(e2)))
 
         if domain:
             if p_check_dns:
@@ -157,10 +169,10 @@ if __name__ == '__main__':
                 rc = check_dns(domain)
                 if rc['status'] == 'ok':
                     print(f"<h2>DNS Success!</h2>")
-                    print('<table style="width: 400px;padding: 10px;margin: 10px">')
+                    print('<table style="width: 400px;padding: 10px;margin: 10px;">')
                     for r in ['A','AAAA','NS','MX']:
                         if rc[r]:
-                            print(f'<tr><td style="background-color: #4caf50;color: white;vertical-align:middle">{r}:</td><td>')
+                            print(f'<tr><td style="background-color: #4caf50;color: white;vertical-align:top; padding:5px;">{r}:</td><td>')
                             for a in rc[r]:
                                 print(f"{a}<br/>")
                             print('</td></tr>')
@@ -207,5 +219,7 @@ if __name__ == '__main__':
         print("<p>Доменне ім'я не задано</p>")
 
 
-    print("""</body>
+    print("""
+</div>
+</body>
 </html>""")

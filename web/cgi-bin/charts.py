@@ -33,6 +33,11 @@ print("""<!DOCTYPE HTML>
         </head>
         <body>
         <div>             
+	<nav class="navbar navbar-expand-lg nav-pills" style="background-color: #ccd9d9;">
+	  <a class="nav-link" href="/">Моніторинг сервісів</a>
+	  <a class="nav-link" href="/cgi-bin/result.py">Сервіси ХДУ - загальний статус</a>
+	  <a class="nav-link active" href="/cgi-bin/charts.py">Графіки</a>
+	</nav>
 """)
 
 form = cgi.FieldStorage()
