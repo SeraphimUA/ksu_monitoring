@@ -3,7 +3,7 @@ from os import path
 import telebot
 from monitoring.check_utils import check_domain
 
-bot = telebot.TeleBot('1731204379:AAERjNFnMSAwy17XlsGLBcGgOkcD_cAMlTg')
+bot = telebot.TeleBot('TOKEN_ID')
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
