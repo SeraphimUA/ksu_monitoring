@@ -20,36 +20,36 @@
 
 Параметри:
 
- dns:
-    resolvers:  #   ip-адреси DNS-резолверів
+	dns:
+		resolvers:  #   ip-адреси DNS-резолверів
         - 8.8.8.8
 
- ipv6: false # якщо true, перевірка IPv6-адрес
+	ipv6: false # якщо true, перевірка IPv6-адрес
+	
+	send_alert: true # відсилати повідомлення при зміні статусів сервісів
+	debug: true # налагоджувальний друк
 
- send_alert: true # відсилати повідомлення при зміні статусів сервісів
- debug: true # налагоджувальний друк
-
- smtp:
-    smtp_server: <>  # адреса SMTP-серверу
-    smtp_user: <> # адреса (логін) для SMTP-авторизації
-    smtp_password: <> # пароль
-    mail_from: <> # адреса, від якої відсилаються повідомлення
-    mail_to: # список email-адрес, на які відсилаються повідомлення
-        - <MAIL_TO1>
-        - <MAIL_TO2>
-
- timeouts: # таймаути для DNS-резолвера та HTTP-запитів
-    dns: 2
-    http: 10
+	smtp:
+		smtp_server: <>  # адреса SMTP-серверу
+		smtp_user: <> # адреса (логін) для SMTP-авторизації
+		smtp_password: <> # пароль
+		mail_from: <> # адреса, від якої відсилаються повідомлення
+		mail_to: # список email-адрес, на які відсилаються повідомлення
+			- <MAIL_TO1>
+			- <MAIL_TO2>
+	
+	timeouts: # таймаути для DNS-резолвера та HTTP-запитів
+		dns: 2
+		http: 10
         
- hosts: # список хостів для моніторингу
-    kspu.edu:
-        - check_dns # отримання DNS-записів
-        - check_ping # контроль доступності хосту через команду ping
-        - check_http # контроль доступності вебсервісу за протоколом HTTP
-        - check_https # контроль доступності вебсервісу за протоколом HTTPS
-        - chart_data_http # збирання даних для побудови графіку
-
+	hosts: # список хостів для моніторингу
+		kspu.edu:
+			- check_dns # отримання DNS-записів
+			- check_ping # контроль доступності хосту через команду ping
+			- check_http # контроль доступності вебсервісу за протоколом HTTP
+			- check_https # контроль доступності вебсервісу за протоколом HTTPS
+			- chart_data_http # збирання даних для побудови графіку
+	
 Модуль для роботи з конфігурацією - monitoring/config_loader.py
 
 
@@ -64,20 +64,20 @@
 Результати перевірок записуються в каталог results у вигляді файлів <domain>.json у форматі JSON-структур.
 
 Приклад:
-  {
-    "domain": "kspu.edu",
-    "timestamp": "[2021-05-05 19:10:08]",
-    "results": {
-      "dns": { "status": "ok",
-        "A": [ "193.109.129.2" ],
-        "NS": [ "mail.kspu.kherson.ua.", "proxy.kspu.kherson.ua." ],
-        "MX": [ "10 mail.ksu.ks.ua.", "20 proxy.kspu.kherson.ua." ]
-      },
-      "ping": { "status": "ok" },
-      "http": { "status": "ok", "url": "http://www.kspu.edu/",
-                 "status_code": 200, "latency": 3847 }
-    }
-  }
+	{
+		"domain": "kspu.edu",
+		"timestamp": "[2021-05-05 19:10:08]",
+		"results": {
+			"dns": { "status": "ok",
+				"A": [ "193.109.129.2" ],
+				"NS": [ "mail.kspu.kherson.ua.", "proxy.kspu.kherson.ua." ],
+				"MX": [ "10 mail.ksu.ks.ua.", "20 proxy.kspu.kherson.ua." ]
+			},
+			"ping": { "status": "ok" },
+			"http": { "status": "ok", "url": "http://www.kspu.edu/",
+				"status_code": 200, "latency": 3847 }
+		}
+	}
 
 Крім того, якщо для хосту вказано перевірку "chart_data_http", для такого хосту створюється файл у каталозі charts_data,
 що містить дані останніх перевірок (за останню добу) у JavaScript-форматі, які потім будуть використані при побудові графіків.
